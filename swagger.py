@@ -23,6 +23,52 @@ def pet_upd(petid, name, status="available"):
     r = requests.post(api_url, api_data)
     return r    
 
+# найти питомцев по статусу
+def pet_find_by_status(status):
+    api_url = f"{base_url}/pet/findByStatus"
+    api_data = {
+        'status':status
+        }
+    r = requests.get(api_url, api_data)
+    return r
+
+# создать нового питомца
+def pet_new(petid, name):
+    api_url = f"{base_url}/pet"
+    api_data = {
+        "id": petid,
+        "category": {
+            "id": 0,
+            "name": "string"
+        },
+        "name": name,
+        "photoUrls": [
+            "string"
+        ],
+        "tags": [
+            {
+            "id": 0,
+            "name": "string"
+            }
+        ],
+        "status": "available"
+        }
+    r = requests.post(api_url, json=api_data)
+    return r
+
+# def pet_order(petid, quantity=1):
+#     api_url = f"{base_url}/store/order"
+#     api_data = {
+#         "id": 1,
+#         "petId": 1,
+#         "quantity": 1,
+#         "shipDate": "2020-05-03T19:51:52.604Z",
+#         "status": "placed",
+#         "complete": True
+#     }
+#     r = requests.post(api_url, json=api_data)
+#     return r
+
 # выводим и анализируем результат
 def req_info(r):
     try:
@@ -49,4 +95,10 @@ if __name__ == '__main__':
     print("UPD")
     # апд. по апи
     r = pet_upd(1, "dog")
+    req_info(r)
+    # должно быть 200
+    r = pet_find_by_status('sold')
+    req_info(r)
+    # должно быть 200
+    r = pet_new(10, 'qwer')
     req_info(r)
